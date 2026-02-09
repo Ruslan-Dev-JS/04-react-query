@@ -1,0 +1,7 @@
+/* MovieGrid.module.css */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 16px;
+  justify-content: center;
+}
