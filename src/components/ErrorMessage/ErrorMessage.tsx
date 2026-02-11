@@ -1,7 +1,12 @@
+import type { FC } from 'react';
+import css from './ErrorMessage.module.css';
+
 interface ErrorMessageProps {
-  children: string;
+  message: string;
 }
 
-export default function ErrorMessage({ children }: ErrorMessageProps) {
-  return <p style={{ color: 'red' }}>{children}</p>;
-}
+const ErrorMessage: FC<ErrorMessageProps> = ({ message }) => {
+  return <div className={css.error}>{message}</div>;
+};
+
+export default ErrorMessage;

@@ -4,6 +4,7 @@ import MovieGrid from '../MovieGrid/MovieGrid';
 import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import SearchBar from '../SearchBar/SearchBar';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import type { Movie } from '../../types/movie';
 import ReactPaginate from 'react-paginate';
 import toast, { Toaster } from 'react-hot-toast';
@@ -15,15 +16,14 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  // Кастомний хук useMovies
-  const { movies, totalPages, isLoading, error } = useMovies(page, query);
+  const { movies, totalPages, isLoading, error } = useMovies(query, page);
 
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
     setPage(1);
 
     if (!newQuery) {
-      toast('Please enter a search query');
+      toast.error('Please enter a search query');
     }
   };
 
@@ -39,9 +39,11 @@ export default function App() {
 
       {isLoading && <Loader />}
 
-      {error && <p className={css.error}>Error: {error.message}</p>}
+      {error && <ErrorMessage message={error.message} />}
 
-      {!isLoading && movies.length === 0 && query && toast('No movies found!')}
+      {!isLoading && movies.length === 0 && query && (
+        toast.error('No movies found!')
+      )}
 
       {movies.length > 0 && (
         <MovieGrid movies={movies} onSelect={handleSelectMovie} />

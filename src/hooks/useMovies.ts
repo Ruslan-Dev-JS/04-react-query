@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchMovies } from '../services/movieService';
-import type { MovieResponse } from '../types/movie';
 
-export const useMovies = (page: number, query: string) => {
-const { data, isLoading, error } = useQuery<MovieResponse, Error>({
-  queryKey: ['movies', page, query],
-  queryFn: () => fetchMovies(query, page),
-  enabled: Boolean(query),
-});
+export const useMovies = (query: string, page: number) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['movies', query, page],
+    queryFn: () => fetchMovies(query, page),
+    enabled: Boolean(query),
+  });
 
   return {
     movies: data?.results ?? [],

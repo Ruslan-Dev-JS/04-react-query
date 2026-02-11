@@ -10,15 +10,20 @@ interface SearchBarProps {
 export default function SearchBar({ onSubmit }: SearchBarProps) {
   const [input, setInput] = useState('');
 
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!input.trim()) {
+    const formData = new FormData(e.currentTarget);
+    const query = formData.get('query')?.toString().trim() || '';
+
+    if (!query) {
       toast.error('Please enter a search query');
       return;
     }
 
-    onSubmit(input.trim());
+    onSubmit(query);
+    setInput(''); 
   };
 
   return (
