@@ -1,5 +1,7 @@
-import css from "./ErrorMessage.module.css";
+interface ErrorMessageProps {
+  children: string;
+}
 
-export default function ErrorMessage() {
-  return <p className={css.text}>There was an error, please try again...</p>;
+export default function ErrorMessage({ children }: ErrorMessageProps) {
+  return <p style={{ color: 'red' }}>{children}</p>;
 }
