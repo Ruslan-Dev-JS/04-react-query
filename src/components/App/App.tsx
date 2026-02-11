@@ -1,31 +1,51 @@
 import { useState } from 'react';
-import ReactPaginate from 'react-paginate';
 import { useMovies } from '../../hooks/useMovies';
 import MovieGrid from '../MovieGrid/MovieGrid';
+import MovieModal from '../MovieModal/MovieModal';
+import Loader from '../Loader/Loader';
 import SearchBar from '../SearchBar/SearchBar';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { Movie } from '../../types/movie';
+import ReactPaginate from 'react-paginate';
+import toast, { Toaster } from 'react-hot-toast';
+
 import css from './App.module.css';
 
 export default function App() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
+  // Кастомний хук useMovies
   const { movies, totalPages, isLoading, error } = useMovies(page, query);
 
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
     setPage(1);
+
+    if (!newQuery) {
+      toast('Please enter a search query');
+    }
   };
+
+  const handleSelectMovie = (movie: Movie) => {
+    setSelectedMovie(movie);
+  };
+
+  const handleCloseModal = () => setSelectedMovie(null);
 
   return (
     <div className={css.app}>
       <SearchBar onSubmit={handleSearch} />
 
-      {isLoading && <p className={css.loading}>Loading...</p>}
+      {isLoading && <Loader />}
 
-      {error instanceof Error && <ErrorMessage>{error.message}</ErrorMessage>}
+      {error && <p className={css.error}>Error: {error.message}</p>}
 
-      {movies.length > 0 && <MovieGrid movies={movies} />}
+      {!isLoading && movies.length === 0 && query && toast('No movies found!')}
+
+      {movies.length > 0 && (
+        <MovieGrid movies={movies} onSelect={handleSelectMovie} />
+      )}
 
       {totalPages > 1 && (
         <ReactPaginate
@@ -40,6 +60,12 @@ export default function App() {
           previousLabel="←"
         />
       )}
+
+      {selectedMovie && (
+        <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
+      )}
+
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }
