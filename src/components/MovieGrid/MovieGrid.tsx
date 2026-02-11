@@ -1,6 +1,5 @@
-
-import type { Movie } from "../../types/movie";
-import css from "./MovieGrid.module.css";
+import type { Movie } from '../../types/movie';
+import css from './MovieGrid.module.css';
 
 interface MovieGridProps {
   movies: Movie[];
@@ -8,17 +7,16 @@ interface MovieGridProps {
 
 export default function MovieGrid({ movies }: MovieGridProps) {
   return (
-    <div className={css.grid}>
-      {movies.map((movie) => (
-        <div key={movie.id} className={css.card}>
-          <img
-            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <h3>{movie.title}</h3>
-          <p>Rating: {movie.vote_average}</p>
-        </div>
+    <ul className={css.list}>
+      {movies.map(movie => (
+        <li key={movie.id} className={css.listItem}>
+          <h2 className={css.title}>{movie.title}</h2>
+          <p className={css.content}>{movie.overview}</p>
+          <div className={css.footer}>
+            <span className={css.tag}>Rating: {movie.vote_average}</span>
+          </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import type { MovieResponse } from '../types/movie';
 
-
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 const axiosInstance = axios.create({
@@ -17,8 +16,7 @@ export const fetchMovies = async (
   query: string
 ): Promise<MovieResponse> => {
   const { data } = await axiosInstance.get<MovieResponse>('/search/movie', {
-    params: { query, page },
+    params: { page, query },
   });
-
   return data;
 };

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-
 import { useMovies } from '../../hooks/useMovies';
 import MovieGrid from '../MovieGrid/MovieGrid';
 import SearchBar from '../SearchBar/SearchBar';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-
 import css from './App.module.css';
 
 export default function App() {
@@ -25,9 +23,7 @@ export default function App() {
 
       {isLoading && <p className={css.loading}>Loading...</p>}
 
-      {error instanceof Error && (
-        <ErrorMessage>{error.message}</ErrorMessage>
-      )}
+      {error instanceof Error && <ErrorMessage>{error.message}</ErrorMessage>}
 
       {movies.length > 0 && <MovieGrid movies={movies} />}
 
