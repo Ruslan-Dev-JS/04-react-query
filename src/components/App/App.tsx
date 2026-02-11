@@ -4,7 +4,7 @@ import MovieGrid from '../MovieGrid/MovieGrid';
 import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import SearchBar from '../SearchBar/SearchBar';
-import { Movie } from '../../types/movie';
+import type { Movie } from '../../types/movie';
 import ReactPaginate from 'react-paginate';
 import toast, { Toaster } from 'react-hot-toast';
 

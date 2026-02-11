@@ -5,7 +5,7 @@ import type { MovieResponse } from '../types/movie';
 export const useMovies = (page: number, query: string) => {
 const { data, isLoading, error } = useQuery<MovieResponse, Error>({
   queryKey: ['movies', page, query],
-  queryFn: () => fetchMovies(page, query),
+  queryFn: () => fetchMovies(query, page),
   enabled: Boolean(query),
 });
 
